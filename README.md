@@ -23,7 +23,7 @@ Hey everyone, this is the first episode of this series where I will show how to 
         - Switch back to mariadb installing window, choose retry
         - it works
     - using mariadb
-        - create a db: config the db name, user, password, host id in config.json
+        - create a db: config the db name, user, password 123456 or just leave it null, host id in config.json
         - all the rest of tables can be defined under folder models, it works pretty much like define the CDS file under the specified folder, sequelite will handle the tables creation
 - Sequelize
 

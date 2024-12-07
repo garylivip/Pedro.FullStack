@@ -1,0 +1,18 @@
+meta {
+  name: Post posts
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:3000/
+  body: json
+  auth: none
+}
+
+body:json {
+  {"title": "post4", 
+   "postText": "post4 - contents", 
+   "userName": "Alice"
+  }
+}

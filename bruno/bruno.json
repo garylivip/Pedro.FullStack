@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "post_mgt",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}
