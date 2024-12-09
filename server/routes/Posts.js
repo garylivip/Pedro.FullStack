@@ -3,7 +3,6 @@ const router = express.Router();
 const { Posts } = require("../models");
 
 router.get("/", (req, res) => {
- 
   Posts.findAll()
     .then((posts) => {
       res.json(posts);
@@ -39,4 +38,18 @@ router.delete("/:id", (req, res) => {
     });
 });
 
+router.get("/byId/:id", (req, res) => {
+  const id = req.params.id;
+  Posts.findByPk(id)
+    .then((post) => {
+      if (post) {
+        res.json(post);
+      } else {
+        res.status(404).send("Post not found");
+      }
+    })
+    .catch((error) => {
+      res.status(500).send("Error retrieving post: " + error.message);
+    });
+});
 module.exports = router;
