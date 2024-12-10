@@ -1,0 +1,15 @@
+meta {
+  name: Create Comments
+  type: http
+  seq: 6
+}
+
+post {
+  url: http://localhost:4000/comments
+  body: json
+  auth: none
+}
+
+body:json {
+  {"PostId":"101", "commentBody": "testing comments 1 for post 101"}
+}
