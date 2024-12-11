@@ -1,0 +1,15 @@
+meta {
+  name: Get users
+  type: http
+  seq: 8
+}
+
+post {
+  url: http://localhost:4000/users/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {"username":"cook", "password": "123"}
+}

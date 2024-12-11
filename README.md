@@ -138,3 +138,4 @@ yarn create react-app my-app
 
 # npm i formik  || yarn add formik
 # yarn add yup || npm install yup
+# npm install bcrypt

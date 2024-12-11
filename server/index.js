@@ -13,6 +13,9 @@ app.use("/posts", postsRoutes);
 const commentsRoutes = require("./routes/Comments");
 app.use("/comments", commentsRoutes);
 
+const usersRoutes = require("./routes/Users");
+app.use("/users", usersRoutes);
+
 db.sequelize.sync().then(() => {
   app.listen(4000, () => {
     console.log("Server is running");

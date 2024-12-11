@@ -6,7 +6,7 @@ router.post("/", (req, res) => {
   const comment = req.body;
   Comments.create(comment)
     .then(() => {
-      res.status(201).send("Post created successfully");
+      res.status(201).send("Comment created successfully");
     })
     .catch((error) => {
       res.status(500).send("Error creating post: " + error.message);
