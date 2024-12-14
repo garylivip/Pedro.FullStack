@@ -29,16 +29,24 @@ function Post() {
 
   const addComment = () => {
     axios
-      .post(`http://localhost:4000/comments`, {
-        commentBody: newComment,
-        PostId: id,
-      })
-      .then((response) => { 
+      .post(
+        `http://localhost:4000/comments`,
+        {
+          commentBody: newComment,
+          PostId: id,
+        },
+        {
+          headers: {
+            authorization: sessionStorage.getItem("token"),
+          },
+        }
+      )
+      .then((response) => {
         setComments([...comments, { commentBody: newComment }]);
         setNewComment("");
       })
-      .catch(() => {
-        console.log("Error");
+      .catch((error) => {
+        console.log(error);
       });
   };
 
