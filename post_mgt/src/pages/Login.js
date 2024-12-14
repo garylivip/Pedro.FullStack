@@ -11,21 +11,25 @@ function Login() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(event.target.username.value, event.target.password.value);
     const data = { username: username, password: password };
-    console.log(data);
 
     try {
       const response = await axios.post(
         "http://localhost:4000/users/login",
         data
       );
-      console.log("Login successful:", response.data);
-      localStorage.setItem("token", response.data);     
-      setAuthState(true);
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("username", response.data.username);
+      localStorage.setItem("userid", response.data.id);
+      setAuthState({
+        username: response.data.username,
+        userid: response.data.id,
+        status: true,
+      });
       navigate("/");
     } catch (error) {
       console.error("Login failed:", error);
+
     }
   };
 

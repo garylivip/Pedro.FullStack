@@ -40,7 +40,7 @@ router.post("/login", async (req, res) => {
       { username: user.username, id: user.id },
       "secretissecret"
     );
-    res.status(200).json(token); // password matches
+    res.status(200).json({ token: token, username: user.username, id: user.id }); // password matches
   });
 });
 

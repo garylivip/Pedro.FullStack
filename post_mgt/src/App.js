@@ -10,30 +10,62 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 function App() {
-  const [authState, setAuthState] = useState(false);
+  const [authState, setAuthState] = useState({
+    username: "",
+    id: 0,
+    status: false,
+  });
 
   useEffect(() => {
-    axios.get("http://localhost:4000/users/auth", {
-      headers: { authorization: localStorage.getItem("token") },
-    }).then(() => { 
-      setAuthState(true);
-    }).catch((error) => {
-      console.error("Error:", error);
-     });
-  }, []);
+    axios
+      .get("http://localhost:4000/users/auth", {
+        headers: { authorization: localStorage.getItem("token") },
+      })
+      .then((response) => {
+        setAuthState({
+          username: response.data.username,
+          id: response.data.id,
+          status: true,
+        });
+      })
+      .catch((error) => {
+        setAuthState({
+          ...authState,
+          status: false,
+        });
+        console.error("Error:", error);
+      });
+  }, [authState]);
 
   return (
     <div className="App">
       <AuthContext.Provider value={{ authState, setAuthState }}>
         <Router>
           <div className="navbar">
-            <Link to="/">Home</Link>
-            <Link to="/createpost">Create A Post</Link>
-            {!authState && (
-              <>
+            <div className="links">
+              <Link to="/">Home</Link>
+              <Link to="/createpost">Create A Post</Link>
+            </div>
+            {!authState.status ? (
+              <div className="links">
                 <Link to="/login">Login</Link>
                 <Link to="/register">Register</Link>
-              </>
+              </div>
+            ) : (
+              <div className="loggedInContainer">
+                <button
+                  onClick={() => {
+                    localStorage.removeItem("token");
+                    // setAuthState({ ...authState, status: false });
+                    setAuthState({ username: "", id: 0, status: false });
+                    localStorage.removeItem("userId");
+                    localStorage.removeItem("username");
+                  }}
+                >
+                  Logout
+                </button>
+                <h1>{authState.username}</h1>
+              </div>
             )}
           </div>
           <Routes>
