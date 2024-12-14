@@ -28,6 +28,8 @@ function Post() {
   }, [id]);
 
   const addComment = () => {
+    console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+    
     axios
       .post(
         `http://localhost:4000/comments`,
@@ -37,12 +39,16 @@ function Post() {
         },
         {
           headers: {
-            authorization: sessionStorage.getItem("token"),
+            authorization: localStorage.getItem("token"),
           },
         }
       )
       .then((response) => {
-        setComments([...comments, { commentBody: newComment }]);
+        console.log("yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
+        
+        console.log(response.data);
+        
+        setComments([...comments, { commentBody: newComment, username: response.data.username }]);
         setNewComment("");
       })
       .catch((error) => {
@@ -74,6 +80,9 @@ function Post() {
             return (
               <div key={key} className="comment">
                 {comment.commentBody}
+                <div className="commentFooter">
+                  <span>{comment.username}</span>
+                </div>
               </div>
             );
           })}

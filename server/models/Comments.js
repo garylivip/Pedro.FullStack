@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATE,
       defaultValue: sequelize.fn("current_timestamp"),
     },
+    username: { type: DataTypes.STRING, allowNull: false },
   });
   return Comments;
 };

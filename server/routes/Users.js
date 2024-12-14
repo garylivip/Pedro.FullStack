@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { Users } = require("../models");
 const bcrypt = require("bcrypt");
+const authMiddleware = require("../middlewares/AuthMiddleware");
 
 const jwt = require("jsonwebtoken");
 
@@ -13,7 +14,12 @@ router.post("/", (req, res) => {
       password: hash,
     })
       .then((user) => {
-        res.status(201).json(user);
+        // res.status(201).json(user);
+        const token = jwt.sign(
+          { username: user.username, id: user.id },
+          "secretissecret"
+        );
+        res.status(200).json(token);
       })
       .catch((error) => {
         res.status(500).send("Error: " + error);
@@ -34,8 +40,13 @@ router.post("/login", async (req, res) => {
       { username: user.username, id: user.id },
       "secretissecret"
     );
-    res.status(200).json( token ); // password matches
+    res.status(200).json(token); // password matches
   });
 });
+
+router.get("/auth", authMiddleware, (req, res) => {
+  res.status(200).json(req.user);
+});
+
 
 module.exports = router;

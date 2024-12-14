@@ -5,9 +5,10 @@ const verifyToken = require("../middlewares/AuthMiddleware");
 
 router.post("/", verifyToken, (req, res) => {
   const comment = req.body;
+  comment.username = req.user.username;
   Comments.create(comment)
-    .then(() => {
-      res.status(201).send("Comment created successfully");
+    .then((result) => {
+      res.status(201).send(result);
     })
     .catch((error) => {
       res.status(500).send("Error creating post: " + error.message);

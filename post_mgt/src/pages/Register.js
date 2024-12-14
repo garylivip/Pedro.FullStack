@@ -1,7 +1,9 @@
-import React from "react";
+import React, {useContext} from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import axios from "axios";
 import * as Yup from "yup";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../helpers/AuthContext";
 
 function Register() {
   const initialValues = { username: "", password: "" };
@@ -9,9 +11,14 @@ function Register() {
     username: Yup.string().min(3).max(15).required("Required"),
     password: Yup.string().min(3).max(20).required("Required"),
   });
+  const { setAuthState } = useContext(AuthContext);
+  const navigate = useNavigate();
   const handleSubmit = async (values) => {
     try {
       const response = await axios.post("http://localhost:4000/users", values);
+      localStorage.setItem("token", response.data);
+      setAuthState(true);
+      navigate("/");
       console.log(response.data);
     } catch (error) {
       console.error("There was an error registering!", error);

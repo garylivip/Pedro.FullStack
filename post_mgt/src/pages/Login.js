@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../helpers/AuthContext";
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const { setAuthState } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
@@ -19,7 +21,8 @@ function Login() {
         data
       );
       console.log("Login successful:", response.data);
-      sessionStorage.setItem("token", response.data);      
+      localStorage.setItem("token", response.data);     
+      setAuthState(true);
       navigate("/");
     } catch (error) {
       console.error("Login failed:", error);
