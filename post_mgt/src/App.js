@@ -45,13 +45,15 @@ function App() {
             <div className="links">
               <Link to="/">Home</Link>
               <Link to="/createpost">Create A Post</Link>
+
+              {!authState.status && (
+                <>
+                  <Link to="/login">Login</Link>
+                  <Link to="/register">Register</Link>
+                </>
+              )}
             </div>
-            {!authState.status ? (
-              <div className="links">
-                <Link to="/login">Login</Link>
-                <Link to="/register">Register</Link>
-              </div>
-            ) : (
+            {authState.status && (
               <div className="loggedInContainer">
                 <button
                   onClick={() => {

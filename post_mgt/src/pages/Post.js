@@ -1,12 +1,14 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { AuthContext } from "../helpers/AuthContext";
 
 function Post() {
   const { id } = useParams();
   const [post, setPost] = useState({});
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
+  const { authState } = React.useContext(AuthContext);
 
   useEffect(() => {
     axios
@@ -43,11 +45,7 @@ function Post() {
           },
         }
       )
-      .then((response) => {
-        console.log("yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
-        
-        console.log(response.data);
-        
+      .then((response) => {       
         setComments([...comments, { commentBody: newComment, username: response.data.username }]);
         setNewComment("");
       })
@@ -82,6 +80,30 @@ function Post() {
                 {comment.commentBody}
                 <div className="commentFooter">
                   <span>{comment.username}</span>
+                  {authState.username === comment.username && (
+                  <button
+                    onClick={() => {
+                      axios
+                        .delete(
+                          `http://localhost:4000/comments/${comment.id}`,
+                          {
+                            headers: {
+                              authorization: localStorage.getItem("token"),
+                            },
+                          }
+                        )
+                        .then(() => {
+                          setComments(
+                            comments.filter((c) => c.id !== comment.id)
+                          );
+                        })
+                        .catch((error) => {
+                          console.log(error);
+                        });
+                    }}
+                  >
+                    Delete
+                  </button>)}
                 </div>
               </div>
             );
