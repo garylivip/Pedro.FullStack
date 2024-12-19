@@ -3,7 +3,11 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+const baseURL =
+process.env.NODE_ENV === "development"
+  ? "http://localhost:4000"
+  : "http://101.132.187.152:4000";
+console.log("xxxxxxxxxxxxxxxxxxxxx", baseURL);
 
 function CreatePost() {
   const navigate = useNavigate();
@@ -15,13 +19,13 @@ function CreatePost() {
   });
   const onSubmit = (values) => {
     axios
-      .post("http://localhost:4000/posts", values)
+      .post(`${baseURL}/posts`, values)
       .then((response) => {
-        console.log("Posted", response.data);
-        navigate("/");
+      console.log("Posted", response.data);
+      navigate("/");
       })
       .catch((error) => {
-        console.log("Error", error);
+      console.log("Error", error);
       });
   };
 

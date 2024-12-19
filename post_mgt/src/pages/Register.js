@@ -4,7 +4,11 @@ import axios from "axios";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../helpers/AuthContext";
-
+const baseURL =
+process.env.NODE_ENV === "development"
+  ? "http://localhost:4000"
+  : "http://101.132.187.152:4000";
+console.log("xxxxxxxxxxxxxxxxxxxxx", baseURL);
 function Register() {
   const initialValues = { username: "", password: "" };
   const validationSchema = Yup.object({
@@ -15,7 +19,7 @@ function Register() {
   const navigate = useNavigate();
   const handleSubmit = async (values) => {
     try {
-      const response = await axios.post("http://localhost:4000/users", values);
+      const response = await axios.post(`${baseURL}/users`, values);
       localStorage.setItem("token", response.data);
       setAuthState(true);
       navigate("/");

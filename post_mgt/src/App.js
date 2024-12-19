@@ -8,7 +8,11 @@ import Register from "./pages/Register";
 import { AuthContext } from "./helpers/AuthContext";
 import { useState, useEffect } from "react";
 import axios from "axios";
-
+const baseURL =
+process.env.NODE_ENV === "development"
+  ? "http://localhost:4000"
+  : "http://101.132.187.152:4000";
+console.log("xxxxxxxxxxxxxxxxxxxxx", baseURL);
 function App() {
   const [authState, setAuthState] = useState({
     username: "",
@@ -18,22 +22,22 @@ function App() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:4000/users/auth", {
-        headers: { authorization: localStorage.getItem("token") },
+      .get(`${baseURL}/users/auth`, {
+      headers: { authorization: localStorage.getItem("token") },
       })
       .then((response) => {
-        setAuthState({
-          username: response.data.username,
-          id: response.data.id,
-          status: true,
-        });
+      setAuthState({
+        username: response.data.username,
+        id: response.data.id,
+        status: true,
+      });
       })
       .catch((error) => {
-        setAuthState({
-          ...authState,
-          status: false,
-        });
-        console.error("Error:", error);
+      setAuthState({
+        ...authState,
+        status: false,
+      });
+      console.error("Error:", error);
       });
   }, [authState]);
 
