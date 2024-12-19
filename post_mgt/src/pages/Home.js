@@ -2,25 +2,22 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 const baseURL =
-process.env.NODE_ENV === "development"
-  ? "http://localhost:4000"
-  : "http://101.132.187.152:4000";
-console.log("xxxxxxxxxxxxxxxxxxxxx", baseURL);
-
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:4000"
+    : "http://101.132.187.152:4000";
 
 function Home() {
   const [posts, setPosts] = useState([]);
   const navigate = useNavigate();
 
-
   useEffect(() => {
     axios
       .get(`${baseURL}/posts`)
       .then((response) => {
-      setPosts(response.data);
+        setPosts(response.data);
       })
       .catch((error) => {
-      console.log(error);
+        console.log("Error", error);
       });
   }, []);
 

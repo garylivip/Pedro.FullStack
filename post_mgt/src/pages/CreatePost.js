@@ -4,10 +4,9 @@ import * as Yup from "yup";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 const baseURL =
-process.env.NODE_ENV === "development"
-  ? "http://localhost:4000"
-  : "http://101.132.187.152:4000";
-console.log("xxxxxxxxxxxxxxxxxxxxx", baseURL);
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:4000"
+    : "http://101.132.187.152:4000";
 
 function CreatePost() {
   const navigate = useNavigate();
@@ -21,11 +20,10 @@ function CreatePost() {
     axios
       .post(`${baseURL}/posts`, values)
       .then((response) => {
-      console.log("Posted", response.data);
-      navigate("/");
+        navigate("/");
       })
       .catch((error) => {
-      console.log("Error", error);
+        console.log("Error", error);
       });
   };
 

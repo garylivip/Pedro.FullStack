@@ -7,7 +7,6 @@ const baseURL =
 process.env.NODE_ENV === "development"
   ? "http://localhost:4000"
   : "http://101.132.187.152:4000";
-console.log("xxxxxxxxxxxxxxxxxxxxx", baseURL);
 
 function Login() {
   const [username, setUsername] = useState("");

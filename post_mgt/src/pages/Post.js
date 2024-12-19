@@ -3,10 +3,9 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../helpers/AuthContext";
 const baseURL =
-process.env.NODE_ENV === "development"
-  ? "http://localhost:4000"
-  : "http://101.132.187.152:4000";
-console.log("xxxxxxxxxxxxxxxxxxxxx", baseURL);
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:4000"
+    : "http://101.132.187.152:4000";
 
 function Post() {
   const { id } = useParams();
@@ -19,43 +18,44 @@ function Post() {
     axios
       .get(`${baseURL}/posts/byId/${id}`)
       .then((response) => {
-      setPost(response.data);
+        setPost(response.data);
       })
-      .catch(() => {
-      console.log("Error");
+      .catch((error) => {
+        console.log("Error", error);
       });
     axios
       .get(`${baseURL}/comments/${id}`)
       .then((response) => {
-      setComments(response.data);
+        setComments(response.data);
       })
-      .catch(() => {
-      console.log("Error");
+      .catch((error) => {
+        console.log("Error", error);
       });
   }, [id]);
 
   const addComment = () => {
-    console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-    
     axios
       .post(
-      `${baseURL}/comments`,
-      {
-        commentBody: newComment,
-        PostId: id,
-      },
-      {
-        headers: {
-        authorization: localStorage.getItem("token"),
+        `${baseURL}/comments`,
+        {
+          commentBody: newComment,
+          PostId: id,
         },
-      }
+        {
+          headers: {
+            authorization: localStorage.getItem("token"),
+          },
+        }
       )
-      .then((response) => {       
-      setComments([...comments, { commentBody: newComment, username: response.data.username }]);
-      setNewComment("");
+      .then((response) => {
+        setComments([
+          ...comments,
+          { commentBody: newComment, username: response.data.username },
+        ]);
+        setNewComment("");
       })
       .catch((error) => {
-      console.log(error);
+        console.log("Error", error);
       });
   };
 
@@ -86,29 +86,27 @@ function Post() {
                 <div className="commentFooter">
                   <span>{comment.username}</span>
                   {authState.username === comment.username && (
-                  <button
-                    onClick={() => {
+                    <button
+                      onClick={() => {
                         axios
-                        .delete(
-                          `${baseURL}/comments/${comment.id}`,
-                          {
-                          headers: {
-                            authorization: localStorage.getItem("token"),
-                          },
-                          }
-                        )
-                        .then(() => {
-                          setComments(
-                          comments.filter((c) => c.id !== comment.id)
-                          );
-                        })
-                        .catch((error) => {
-                          console.log(error);
-                        });
-                    }}
-                  >
-                    Delete
-                  </button>)}
+                          .delete(`${baseURL}/comments/${comment.id}`, {
+                            headers: {
+                              authorization: localStorage.getItem("token"),
+                            },
+                          })
+                          .then(() => {
+                            setComments(
+                              comments.filter((c) => c.id !== comment.id)
+                            );
+                          })
+                          .catch((error) => {
+                            console.log("Error", error);
+                          });
+                      }}
+                    >
+                      Delete
+                    </button>
+                  )}
                 </div>
               </div>
             );

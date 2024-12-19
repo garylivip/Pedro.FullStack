@@ -1,14 +1,14 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import axios from "axios";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../helpers/AuthContext";
 const baseURL =
-process.env.NODE_ENV === "development"
-  ? "http://localhost:4000"
-  : "http://101.132.187.152:4000";
-console.log("xxxxxxxxxxxxxxxxxxxxx", baseURL);
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:4000"
+    : "http://101.132.187.152:4000";
+
 function Register() {
   const initialValues = { username: "", password: "" };
   const validationSchema = Yup.object({
@@ -23,7 +23,6 @@ function Register() {
       localStorage.setItem("token", response.data);
       setAuthState(true);
       navigate("/");
-      console.log(response.data);
     } catch (error) {
       console.error("There was an error registering!", error);
     }
